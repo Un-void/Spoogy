@@ -3,7 +3,7 @@ import CardContainer from "./CardContainer"
 const Body = () =>{
     return(
         <>
-            <div className="">
+            <div>
                 <CardContainer />
             </div>  
         </>
