@@ -9,15 +9,7 @@ const CardContainer = () => {
     const [NewData, setNewData] = useState([])
     const [SearchText, setSearchText] = useState("")
     const [OriginalData, setOriginalData] = useState([]);
-
-    const getRestaurantData = async () => {
-        const response = await fetch(API_URL);
-        const data = await response.json()
-        const restaurants = data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-        setNewData(restaurants)
-        setOriginalData(restaurants)
-        console.log(restaurants[0])
-    }
+    const [errorMessage, seterrorMessage] = useState()
 
     const handleSearchText = (val) => {
         setSearchText(val)
@@ -30,20 +22,65 @@ const CardContainer = () => {
         setNewData(filteredList)
     }
 
+    const handleSearch = () => {
+        const result = OriginalData.filter((restaurant) =>
+            restaurant?.info?.name.toLowerCase().includes(SearchText.toLowerCase())
+        );
+    
+        setNewData(result);
+        console.log("result: ", result);
+    };
+
     useEffect(() => {
+        const getRestaurantData = async () => {
+            const response = await fetch(API_URL);
+            try{
+                if(response.ok){
+                const data = await response.json()
+                const restaurants = data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+                setNewData(restaurants)
+                setOriginalData(restaurants)
+                console.log("USE CALLED !!")
+                }
+                else{
+                    if(response.status==400){
+                        throw new Error("Bad request")
+                    }
+                    if(response.status==401){
+                        throw new Error("Unauthorized request")
+                    }
+                    if(response.status==403){
+                        throw new Error("Requested content is forbidden")
+                    }
+                    if(response.status==404){
+                        throw new Error("Requested resource not found!")
+                    }
+                    else{
+                        throw new Error("Kuch to gadbad hai daya !!??")
+                    }
+                }
+            }
+            catch (error){
+                seterrorMessage(error.message)
+                console.log("error", errorMessage);
+            }
+        };
         getRestaurantData();
-        console.log("UseEffect called !")
-    }, [SearchText])
+    }, []);
 
     console.log("Rendered...")
     return (
-        <>
-            <div className="w-3/6 m-auto flex justify-between items-center pt-5 mt-5">
-                <input type="text" className="border w-2/4 shadow-md h-4/5 p-1 rounded-md" onChange={handleSearchText} />
+        <div className="px-5 mx-5">
+            <div className="w-5/6 flex justify-around items-center pt-5 m-5">
                 <button className="w-36 px-5 py-2 rounded-md bg-gray-400 hover:bg-gray-500" onClick={handleRating}>Top Rated !</button>
+                <div className="flex shadow-lg rounded-lg overflow-hidden">
+                    <input type="text" className="p-1 focus:outline-none" 
+                    value={SearchText} onChange={(e) => handleSearchText(e.target.value)} />
+                    <button className="border align-middle p-1 bg-slate-400  hover:bg-slate-500" onClick={handleSearch}>Search</button>
+                </div>
             </div>
-            <div className="m-auto flex gap-6 justify-start w-3/4 mt-16 flex-wrap">
-                {NewData.length === 0 ?
+            <div className=" flex gap-6 justify-around mt-16 mx-8 flex-wrap">
+                {NewData.length === 0 && !errorMessage?
                     (<ShimmerCard />)
                     :
                     (NewData.map((restaurant) => {
@@ -53,8 +90,7 @@ const CardContainer = () => {
                     })
                     )}
             </div>
-
-        </>
+        </div>
     )
 }
 

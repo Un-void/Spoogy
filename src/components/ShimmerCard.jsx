@@ -23,7 +23,7 @@
 
 const ShimmerCard = () => {
     return (
-        <div className="grid grid-cols-3 gap-4 m-auto mt-16">
+        <div className="flex gap-4 flex-wrap m-auto mt-16">
             {new Array(20).fill(0).map(() => (
                 <div className="w-56">
                     <div className="w-56 h-36 bg-gray-300 rounded-xl shadow-lg"></div>
