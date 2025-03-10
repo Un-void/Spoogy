@@ -46,9 +46,7 @@ const CardContainer = () => {
                 const data = await response.json()
                 const restaurants = data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
                 setNewData(restaurants)
-                console.log(restaurants)
                 setOriginalData(restaurants)
-                console.log("USE CALLED !!")
                 }
                 else{
                     if(response.status==400){
@@ -88,7 +86,7 @@ const CardContainer = () => {
                     <button className="border align-middle p-1 bg-slate-400  hover:bg-slate-500" onClick={handleSearch}>Search</button>
                 </div>
             </div>
-            <div className=" flex gap-6 justify-around mt-16 mx-8 flex-wrap">
+            <div className=" flex gap-4 justify-around mt-16 m-auto flex-wrap">
                 {NewData.length === 0 && !errorMessage?
                     (<ShimmerCard />)
                     :
