@@ -17,7 +17,14 @@ const CardContainer = () => {
 
     const handleRating = () => {
         const filteredList = OriginalData.filter(restaurant =>
-            restaurant.info.avgRating >= 4.5
+            restaurant?.info?.avgRating >= 4.5
+        )
+        setNewData(filteredList)
+    }
+
+    const checkVeg = () => {
+        const filteredList = OriginalData.filter(restaurant =>
+            restaurant?.info?.veg == true
         )
         setNewData(filteredList)
     }
@@ -39,6 +46,7 @@ const CardContainer = () => {
                 const data = await response.json()
                 const restaurants = data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
                 setNewData(restaurants)
+                console.log(restaurants)
                 setOriginalData(restaurants)
                 console.log("USE CALLED !!")
                 }
@@ -73,6 +81,7 @@ const CardContainer = () => {
         <div className="px-5 mx-5">
             <div className="w-5/6 flex justify-around items-center pt-5 m-5">
                 <button className="w-36 px-5 py-2 rounded-md bg-gray-400 hover:bg-gray-500" onClick={handleRating}>Top Rated !</button>
+                <button className="w-36 px-5 py-2 rounded-md bg-gray-400 hover:bg-gray-500" onClick={checkVeg}>Pure Veg</button>
                 <div className="flex shadow-lg rounded-lg overflow-hidden">
                     <input type="text" className="p-1 focus:outline-none" 
                     value={SearchText} onChange={(e) => handleSearchText(e.target.value)} />
@@ -84,9 +93,7 @@ const CardContainer = () => {
                     (<ShimmerCard />)
                     :
                     (NewData.map((restaurant) => {
-                        return <Cards
-                            {...restaurant?.info}
-                        />
+                        return <Cards {...restaurant?.info} key={restaurant?.info.id}/>
                     })
                     )}
             </div>

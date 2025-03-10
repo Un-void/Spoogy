@@ -24,8 +24,8 @@
 const ShimmerCard = () => {
     return (
         <div className="flex gap-4 flex-wrap m-auto mt-16">
-            {new Array(20).fill(0).map(() => (
-                <div className="w-56">
+            {new Array(20).fill(0).map((card, index) => (
+                <div key={index} className="w-56">
                     <div className="w-56 h-36 bg-gray-300 rounded-xl shadow-lg"></div>
                     <p className="ms-2 mt-3 bg-gray-300 h-5"></p>
                     <div className="flex mt-3 ms-2 justify-around">
