@@ -1,17 +1,31 @@
 import React from 'react'
 import { useParams } from 'react-router'
 import useRestaurantMenu from '../utils/useRestaurantMenu'
-import ResDeatails from './ResDetails'
+import ResDetails from './ResDetails'
 import RestaurantBanner from './RestaurantBanner'
+import CategoryContainer from './CategoryContainer'
 
 const Menu = () => {
     const params = useParams()
     const data = useRestaurantMenu(params?.id)
+    const {title, normalMenu, nestedMenu} = data
+    console.log("MENU", data)
 
     return (
     <div className='w-[75vw] m-auto'>
-      <RestaurantBanner title={data?.title?.name}/>
-      <ResDeatails />
+      <RestaurantBanner title={title?.name}/>
+      <ResDetails {...data?.title}/>
+      {
+        normalMenu.map(category =>{
+          return <CategoryContainer
+          key={category?.card?.card?.categoryId}
+          title={category?.card?.card?.title} 
+          count={category?.card?.card?.itemCards.length}
+          collection ={category?.card?.card?.itemCards}
+          />
+        })
+      }
+      {/* <CategoryContainer title={normalMenu?.title}/> */}
     </div>
   )
 }

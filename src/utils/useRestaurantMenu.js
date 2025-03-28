@@ -5,6 +5,8 @@ const useRestaurantMenu = (id) => {
     const [menu, setMenu] = useState(null);
     const MENU_URL = GenerateMenu_URL(id);
     const [resInfo, setResInfo] = useState([])
+    const [FilteredNormalData, setFilteredNormalData] = useState([])
+    const [FilteredNestedData, setFilteredNestedData] = useState([])
 
     const getMenuData = async () => {
         try {
@@ -12,16 +14,14 @@ const useRestaurantMenu = (id) => {
             const data = await response.json();
             setMenu(data?.data?.cards);
             setResInfo(data?.data?.cards[2]?.card?.card?.info)
-            // console.log(menu[2]?.card?.card?.info?.name)
-            console.log("resIfo", resInfo)
-            console.log("Data", menu)
+            console.log("Data", data)
             const resData = data?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
 
-            const filteredNormalData = resData.filter(resItem => resItem?.card?.card?.[`@type`] === `type.googleapis.com/swiggy.presentation.food.v2.ItemCategory`)
-            const filteredNestedlData = resData.filter(resItem => resItem?.card?.card?.[`@type`] === `type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory`)
+            setFilteredNormalData (resData.filter(resItem => resItem?.card?.card?.[`@type`] === `type.googleapis.com/swiggy.presentation.food.v2.ItemCategory`))
+            setFilteredNestedData (resData.filter(resItem => resItem?.card?.card?.[`@type`] === `type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory`))
 
-            console.log("Filtered normal", filteredNormalData)
-            console.log("Nested data", filteredNestedlData)
+            console.log("Filtered normal", FilteredNormalData)
+            console.log("Nested data", FilteredNestedData)
         } catch (error) {
             console.log("Error fetching menu:", error);
         }
@@ -32,7 +32,9 @@ const useRestaurantMenu = (id) => {
     }, [])
 
     const menuObj ={
-        title : resInfo
+        title : resInfo,
+        normalMenu: FilteredNormalData,
+        nestedMenu : FilteredNestedData 
     }
     return menuObj;
     }
