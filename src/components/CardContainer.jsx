@@ -27,19 +27,19 @@ const CardContainer = () => {
         return<div className="flex justify-center p-10 font-bold text-2xl ">{errorMessage}</div>
     }
     return (
-        <div className="px-5 mx-5">
-            <div className="w-5/6 flex justify-around items-center pt-5 m-5">
-                <button className="w-36 px-5 py-2 rounded-md bg-gray-400 hover:bg-gray-500" onClick={handleRating}>
+        <div className="px-4 sm:px-6 md:px-12">
+            <div className="w-full flex flex-wrap justify-center gap-4 items-center pt-5 m-5">
+                <button className="w-32 sm:w-36 px-5 py-2 rounded-md bg-gray-400 hover:bg-gray-500 transition" onClick={handleRating}>
                     Top Rated !
                 </button>
-                <button className="w-36 px-5 py-2 rounded-md bg-gray-400 hover:bg-gray-500" onClick={checkVeg}>
+                <button className="w-32 sm:w-36 px-5 py-2 rounded-md bg-gray-400 hover:bg-gray-500 transition" onClick={checkVeg}>
                     Pure Veg
                 </button>
                 <SearchBar MasterData={OriginalData} updater={setNewData} setnotFound={setNotFound}/>
             </div>
-            <div className="flex gap-4 justify-around mt-16 m-auto flex-wrap">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center mt-10">
                 {notFound ? (
-                    <div className="text-center text-xl font-bold text-red-500">No Restaurants Found</div>
+                    <div className="text-center text-lg sm:text-xl font-bold text-red-500">No Restaurants Found</div>
                 ) : NewData.length === 0 && !errorMessage ? (
                     <ShimmerCard />
                 ) : (

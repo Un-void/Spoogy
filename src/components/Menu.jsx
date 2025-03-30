@@ -25,7 +25,21 @@ const Menu = () => {
           />
         })
       }
-      {/* <CategoryContainer title={normalMenu?.title}/> */}
+      {
+        nestedMenu.map((mainCategory) => (
+        <>
+          <RestaurantBanner 
+          title={mainCategory?.card?.card?.title}
+          key={mainCategory?.card?.card?.categoryId}/>
+          {mainCategory?.card?.card?.categories.map((subCategory) =>(
+            <CategoryContainer 
+            key={subCategory?.categoryId}
+            title={subCategory?.title} 
+            count={subCategory?.itemCards.length}
+            collection ={subCategory?.itemCards} 
+            />
+          ))}
+        </>))}
     </div>
   )
 }
