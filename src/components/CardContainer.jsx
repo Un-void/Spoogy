@@ -37,7 +37,7 @@ const CardContainer = () => {
                 </button>
                 <SearchBar MasterData={OriginalData} updater={setNewData} setnotFound={setNotFound}/>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center mt-10">
+            <div className="flex flex-wrap justify-center gap-6 px-2 sm:px-6 md:px-12 mt-10">
                 {notFound ? (
                     <div className="text-center text-lg sm:text-xl font-bold text-red-500">No Restaurants Found</div>
                 ) : NewData.length === 0 && !errorMessage ? (
